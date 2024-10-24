@@ -203,7 +203,7 @@ db/migration
 
 Arquivo para migration do MySQL, para criação de tabelas do banco de dados
 
-##### IMPORTANTE!! NECESSÁRIO SER EXATAMENTE DESTA FORMA COM V001 QUE DITA O VERSIONAMENTO E DOIS __
+# IMPORTANTE!! Necessário ser exatamente desta forma com V001 que dita o versionamento e dois __
 
 ex.: V001__cria-tabela-proprietario.sql
 
