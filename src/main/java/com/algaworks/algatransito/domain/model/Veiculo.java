@@ -8,6 +8,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.algaworks.algatransito.domain.exception.NegocioException;
+
 
 @Getter
 @Setter
@@ -33,7 +35,8 @@ public class Veiculo {
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataApreensao;
 
-    @OneToMany(mappedBy = "veiculo")
+    // cascade = qualquer mudança que fizer na lista de autuações de um veiculo que esta sendo gerenciado pelo JPA, vai ser sincronizado com o banco de dados
+    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL)
     private List<Autuacao> autuacoes = new ArrayList<>();
 
     public Autuacao adicionarAutuacao(Autuacao autuacao){
@@ -42,6 +45,30 @@ public class Veiculo {
         autuacao.setVeiculo(this);
         getAutuacoes().add(autuacao);
         return autuacao;
+    }
+
+    public void apreender() {
+        if (estaApreendido()) {
+            throw new NegocioException("Veiculo já se encontra apreendido");
+       }
+
+       setStatus(StatusVeiculo.APREENDIDO);
+       setDataApreensao(OffsetDateTime.now());
+    }
+
+    public boolean estaApreendido() {
+        return StatusVeiculo.APREENDIDO.equals(getStatus());
+    }
+
+    public void removerApreensao() {
+        if(naoEstaApreendido()){
+
+        }
+    }
+
+    public boolean naoEstaApreendido() {
+        return !estaApreendido();
+        // return StatusVeiculo.REGULAR.equals(getStatus());
     }
 
 }
